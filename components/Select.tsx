@@ -1,11 +1,11 @@
 /** @format */
 
 import React from "react";
-import { refinedCategory } from "../pages/admin/data/option";
+import { CategoryProps } from "../types/component";
 
 type Props = {
   title?: string;
-  options: typeof refinedCategory;
+  options: { name: string; subCategories: string[] }[];
   name: string;
   value: string;
   onchange: (e: any) => void;
@@ -49,10 +49,10 @@ function Select({
           <option selected={true}>{title}</option>
           {options.map((option) => {
             return name === "category" ? (
-              <option key={option.category}>{option.category}</option>
+              <option key={option.name}>{option.name}</option>
             ) : (
-              currentCategory === option.category &&
-                option.subCategory.map((subCategory) => (
+              currentCategory === option.name &&
+                option.subCategories.map((subCategory) => (
                   <option key={subCategory}>{subCategory}</option>
                 ))
             );

@@ -6,3 +6,9 @@ export interface ComponentProps {
   subCategory: string;
   code: string;
 }
+
+export interface CategoryProps {
+  name: string;
+  subCategory: string[];
+  components?: string[];
+}

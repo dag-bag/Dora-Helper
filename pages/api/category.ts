@@ -2,9 +2,8 @@
 
 import connectDb from "../../libs/mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
-import Component from "../../Models/Component";
-
 import Category from "../../Models/Category";
+
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -13,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   switch (req.method) {
     case "GET":
       try {
-        const components = await Component.find({});
+        const components = await Category.find({});
         return res.status(200).json(components);
       } catch (error: any) {
         res.status(500).json({ error: error.message });
@@ -21,17 +20,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       break;
     case "POST":
       try {
-        const { title, category, subCategory, code } = req.body;
-        const isExist = await Component.findOne({ title });
+        const { name, subCategories } = req.body;
+
+        const isExist = await Category.findOne({ name });
         if (isExist)
-          return res.status(400).json({ error: "Component already exist" });
-        const component = await Component.create(req.body);
-        const postRelated = await Category.findOneAndUpdate(
-          { name: category },
-          {
-            $push: { components: component },
-          }
-        );
+          return res.status(400).json({ error: "Category already exist" });
+        // if (alreadyExists)
+        //   return res.status(400).json({ error: "Category already exists" });
+        const component = await Category.create({
+          name,
+          subCategories,
+        });
         return res.status(201).json(component);
       } catch (error: any) {
         res.status(500).json({ error: error.message });

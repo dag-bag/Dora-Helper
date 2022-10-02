@@ -1,13 +1,15 @@
 /** @format */
 
+import { GetServerSideProps } from "next";
 import React, { useState } from "react";
 import InputField from "../../components/InputField";
 import Select from "../../components/Select";
 import TextArea from "../../components/TextArea";
 import { addComponent } from "../../libs/crud/post.server";
 import { category, refinedCategory } from "./data/option";
-
-function AddComponent() {
+import connector from "../../libs/connector";
+import Category from "../../Models/Category";
+function AddComponent({ categories }: { categories: any }) {
   const [component, setComponent] = useState({
     title: "",
     category: "Category",
@@ -54,14 +56,14 @@ function AddComponent() {
                 />
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <Select
-                    options={refinedCategory}
+                    options={categories}
                     name="category"
                     value={component.category}
                     onchange={handleInput}
                     title="Category"
                   />
                   <Select
-                    options={refinedCategory}
+                    options={categories}
                     name="subCategory"
                     value={component.subCategory}
                     onchange={handleInput}
@@ -130,6 +132,12 @@ function AddComponent() {
                     className="inline-flex items-center justify-center w-full px-5 py-3 text-white bg-black rounded-lg sm:w-auto"
                     onClick={(e) => {
                       addComponent(e, component);
+                      setComponent({
+                        title: "",
+                        category: "Category",
+                        subCategory: "Sub Category",
+                        code: "",
+                      });
                     }}
                   >
                     <span className="font-medium"> Send Code </span>
@@ -159,3 +167,14 @@ function AddComponent() {
 }
 
 export default AddComponent;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  await connector;
+  const categories = await Category.find({}).select("name subCategories");
+
+  return {
+    props: {
+      categories: JSON.parse(JSON.stringify(categories)),
+    },
+  };
+};
