@@ -6,7 +6,7 @@ import InputField from "../../components/InputField";
 import Select from "../../components/Select";
 import TextArea from "../../components/TextArea";
 import { addComponent } from "../../libs/crud/post.server";
-import { category, refinedCategory } from "./data/option";
+
 import connector from "../../libs/connector";
 import Category from "../../Models/Category";
 function AddComponent({ categories }: { categories: any }) {

@@ -1,8 +1,19 @@
 /** @format */
 
+import Link from "next/link";
 import React from "react";
 
 function Navbar() {
+  const linksData = [
+    {
+      name: "Home",
+      link: "/",
+    },
+    {
+      name: "New Component",
+      link: "/admin/add-component",
+    },
+  ];
   return (
     <>
       {/* component */}
@@ -36,8 +47,14 @@ function Navbar() {
             />
           </div>
           <ul className="flex items-center space-x-6">
-            <li className="font-semibold text-gray-700">Home</li>
-            <li className="font-semibold text-gray-700">Articles</li>
+            {linksData.map((link, i) => {
+              return (
+                <Link href={link.link} key={i}>
+                  <li className="font-semibold text-gray-700">{link.name}</li>
+                </Link>
+              );
+            })}
+
             <li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"

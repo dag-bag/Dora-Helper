@@ -3,12 +3,10 @@
 import React, { useState } from "react";
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
-import Select from "../../components/Select";
-import TextArea from "../../components/TextArea";
-import { addComponent, addNewCategory } from "../../libs/crud/post.server";
+
+import { addNewCategory } from "../../libs/crud/post.server";
 import { removeValue } from "../../libs/form/crud";
 import { handleInput } from "../../libs/handleForms";
-import { category, refinedCategory } from "./data/option";
 
 function AddComponent() {
   let initialValue: string[] = [];
