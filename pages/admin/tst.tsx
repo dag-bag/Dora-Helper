@@ -2,7 +2,7 @@
 
 import useSWR, { SWRConfig } from "swr";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const API = "http://localhost:3000/api/category";
 
 export async function getServerSideProps() {
