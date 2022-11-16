@@ -36,10 +36,6 @@ function Repo() {
   );
 }
 
-export default function App({ fallback }) {
-  return (
-    <SWRConfig value={{ fallback }}>
-      <Repo />
-    </SWRConfig>
-  );
+export default function App({ fallback }: any) {
+  return <SWRConfig value={{ fallback }}>{/* <Repo  /> */}</SWRConfig>;
 }
