@@ -6,7 +6,7 @@ import { RecoilRoot, useRecoilValue } from "recoil";
 
 export default function Document() {
   return (
-    <Html>
+    <Html date-theme="cyberpunk">
       <Head />
       <body>
         <Main />
