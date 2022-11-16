@@ -35,7 +35,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       } catch (error: any) {
         res.status(500).json({ error: error.message });
       }
-
+    case "PUT":
+      try {
+        const { name, subCategory } = req.body;
+        const isExist = await Category.findOne({ name });
+        if (!isExist)
+          return res.status(400).json({ error: "Category does not exist" });
+        const newCategory = isExist.subCategories.concat(subCategory);
+        const component = await Category.findOneAndUpdate(
+          { name },
+          {
+            subCategories: newCategory,
+          }
+        );
+        return res.status(201).json(component);
+      } catch (error: any) {
+        res.status(500).json({ error: error.message });
+      }
     default:
       break;
   }

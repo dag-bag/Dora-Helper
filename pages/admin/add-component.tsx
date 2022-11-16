@@ -6,10 +6,18 @@ import InputField from "../../components/InputField";
 import Select from "../../components/Select";
 import TextArea from "../../components/TextArea";
 import { addComponent } from "../../libs/crud/post.server";
+import useSWR, { SWRConfig } from "swr";
 
 import connector from "../../libs/connector";
 import Category from "../../Models/Category";
-function AddComponent({ categories }: { categories: any }) {
+function AddComponent({ fallback }: { categories?: any; fallback?: any }) {
+  const fetcher = () => {
+    const resp = fetch("/api/category").then((res) => res.json());
+    return resp;
+  };
+  const { data, mutate } = useSWR("/api/category");
+  console.log(data);
+
   const [component, setComponent] = useState({
     title: "",
     category: "Category",
@@ -56,14 +64,14 @@ function AddComponent({ categories }: { categories: any }) {
                 />
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <Select
-                    options={categories}
+                    options={data}
                     name="category"
                     value={component.category}
                     onchange={handleInput}
                     title="Category"
                   />
                   <Select
-                    options={categories}
+                    options={data}
                     name="subCategory"
                     value={component.subCategory}
                     onchange={handleInput}
@@ -165,8 +173,16 @@ function AddComponent({ categories }: { categories: any }) {
     </>
   );
 }
+function App({ fallback }: any) {
+  // console.log();
+  return (
+    <SWRConfig value={{ fallback }}>
+      <AddComponent />
+    </SWRConfig>
+  );
+}
 
-export default AddComponent;
+export default App;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   await connector;
@@ -174,7 +190,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      categories: JSON.parse(JSON.stringify(categories)),
+      fallback: {
+        "/api/category": JSON.parse(JSON.stringify(categories)),
+      },
+      // categories: JSON.parse(JSON.stringify(categories)),
     },
   };
 };

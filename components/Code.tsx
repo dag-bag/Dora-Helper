@@ -2,7 +2,8 @@
 
 import React from "react";
 import Button from "./Button";
-
+import { BsArrowLeft } from "react-icons/bs";
+import BackButton from "./BackButton";
 type Props = {
   code: string;
   title: string;
@@ -21,36 +22,27 @@ function Code({ code, title, subCategory, category }: Props) {
   };
   const [copy, setCopy] = React.useState(false);
   return (
-    <div className="max-w-5xl m-auto">
-      <div>
-        <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-blue-400">
-          {category}
-        </p>
+    <div className="max-w-5xl m-auto ">
+      <div className="flex space-x-4">
+        <div className="badge badge-primary">{category}</div>
+
+        <div className="badge badge-secondary">{subCategory}</div>
       </div>
-      <div>
-        <p className="inline-block px-3 py-px mb-4 text-xs font-semibold tracking-wider text-white uppercase rounded-full bg-orange-400">
-          {subCategory}
-        </p>
-      </div>
-      <h5 className="mb-3 text-3xl font-extrabold leading-none sm:text-4xl">
-        {title}
-      </h5>
-      <pre
-        className="language-markup 
-    h-80 overflow-scroll text-sm relative bg-blue-500 rounded-xl p-3
-    "
-        tabIndex={0}
-      >
+      <h1 className="text-5xl font-bold my-4">{title}</h1>
+
+      <div className="mockup-code relative p-10 ">
         <Button
-          position="sticky"
+          position="absolute"
           top="top-0"
           right="right-0"
           onClick={() => handleTextCopy(code)}
         >
           {copy ? "Copied" : "Copy"}
         </Button>
-        <code className=" text-white">{code}</code>
-      </pre>
+        <pre>
+          <code>{code}</code>
+        </pre>
+      </div>
     </div>
   );
 }

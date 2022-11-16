@@ -1,12 +1,14 @@
 /** @format */ /** @format */
 
 import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
 import Button from "../../components/Button";
 import InputField from "../../components/InputField";
 
 import { addNewCategory } from "../../libs/crud/post.server";
 import { removeValue } from "../../libs/form/crud";
 import { handleInput } from "../../libs/handleForms";
+import { selectedTheme } from "../../libs/pageData";
 
 function AddComponent() {
   let initialValue: string[] = [];

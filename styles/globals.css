@@ -3,3 +3,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    /* background-image: url("/bg.png"); */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+@layer utilities {
+  .tr {
+    background: rgba(52, 66, 244, 0.5);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(52, 66, 244, 0.25);
+  }
+}

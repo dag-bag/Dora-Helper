@@ -24,9 +24,9 @@ function Button({
   return (
     <button
       type="submit"
-      className={`inline-flex items-center justify-center w-full px-5 py-3 text-white bg-black rounded-lg sm:w-auto ${
+      className={`btn btn-primary ${
         position && `${position} ${top} ${right} ${bottom} ${left}`
-      }`}
+      } `}
       onClick={onClick}
     >
       <span className="font-medium"> {children}</span>

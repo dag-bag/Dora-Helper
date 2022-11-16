@@ -3,16 +3,36 @@
 import type { GetServerSideProps, NextPage, NextPageContext } from "next";
 import Head from "next/head";
 
-import { CategoryProps } from "../types/component";
-
 import connector from "../libs/connector";
 
 import Category from "../Models/Category";
-import Card from "../components/Card";
-import Test from "../components/Test";
 
-const Home = ({ categories }: any) => {
-  console.log(categories);
+import Card2 from "../components/Card2";
+import { QueryClient, useQuery, dehydrate } from "@tanstack/react-query";
+import { fetchCategories } from "../libs/pageData";
+
+const Home = () => {
+  const {
+    data: categories,
+    isLoading,
+    error,
+  } = useQuery(["category"], fetchCategories);
+  if (isLoading) {
+    return (
+      <div className="text-5xl font-bold my-4 text-center h-[80vh] flex justify-center items-center">
+        Loading...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <h1 className="text-5xl font-bold my-4 text-center h-[80vh] flex justify-center items-center">
+        Something went wrong
+      </h1>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -21,13 +41,14 @@ const Home = ({ categories }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex max-w-7xl m-auto gap-5">
+      <main className="grid grid-cols-3 max-w-7xl m-auto gap-5 mt-10 overflow-hidden overflow-y-scroll max-h-[30rem] scrollbar-hide">
+        {/* <Card2 /> */}
         {categories?.map((item: any, index: number) => {
           const { name, subCategories, components } = item;
           console.log(subCategories);
 
           return (
-            <Card
+            <Card2
               key={index}
               category={name}
               subCategory={subCategories}
@@ -43,12 +64,15 @@ const Home = ({ categories }: any) => {
 export default Home;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  await connector();
+  // await connector();
 
-  const category = await Category.find({});
+  const queryClient = new QueryClient();
+  // const category = await fetchCategories();
+  await queryClient.prefetchQuery(["category"], fetchCategories);
+
   return {
     props: {
-      categories: JSON.parse(JSON.stringify(category)),
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };

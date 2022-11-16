@@ -2,6 +2,7 @@
 
 import { GetServerSideProps } from "next";
 import React from "react";
+import BackButton from "../../components/BackButton";
 import Code from "../../components/Code";
 import connector from "../../libs/connector";
 import Component from "../../Models/Component";
@@ -14,7 +15,8 @@ type Props = {
 const Slug = ({ components }: Props) => {
   console.log(components);
   return (
-    <div className="space-y-14">
+    <div className="space-y-14 overflow-hidden overflow-y-scroll h-[40rem] pb-20 relative mockup-window border border-base-300">
+      <BackButton Text="Back" />
       {components.map((item, i) => {
         return <Code key={i} {...item} />;
       })}

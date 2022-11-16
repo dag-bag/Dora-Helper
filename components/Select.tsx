@@ -2,6 +2,8 @@
 
 import React from "react";
 import { CategoryProps } from "../types/component";
+import Modal from "./Modal";
+import useSWR from "swr";
 
 type Props = {
   title?: string;
@@ -27,7 +29,7 @@ function Select({
       <div className="mb-3 xl:w-96">
         <select
           disabled={disabled}
-          className="form-select appearance-none block disabled:opacity-60
+          className={`form-select appearance-none block disabled:opacity-60
           w-full
           px-3
           py-1.5
@@ -40,7 +42,9 @@ function Select({
           transition
           ease-in-out
           m-0
-          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+          focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+         
+          `}
           aria-label="Default select example"
           value={value}
           onChange={onchange}
@@ -59,6 +63,22 @@ function Select({
           })}
         </select>
       </div>
+      {/* <a href="#my-modal-2" className="btn">
+        open modal
+      </a> */}
+
+      <a
+        href="#my-modal-2"
+        className={`${
+          disabled ? "pointer-events-none" : "cursor-pointer"
+        } bg-white  border-black border px-2  max-h-9 ${
+          name === "category" ? "hidden" : "block"
+        }`}
+      >
+        +
+      </a>
+
+      <Modal currentCategory={currentCategory} />
     </div>
   );
 }
